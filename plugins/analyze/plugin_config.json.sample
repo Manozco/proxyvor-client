@@ -1,0 +1,7 @@
+{
+    "author": "diateam <contact@diateam.net>",
+    "name": "ProxyAnalyzer",
+    "description": "Analyze the anonymity and the quality of the proxy tested",
+    "version": "1",
+    "extra":{}
+}

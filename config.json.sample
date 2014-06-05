@@ -1,0 +1,39 @@
+{
+    "target": {
+        "base_url": "http://127.0.0.1",
+        "base_port": 8080,
+        "token_create_url": "proxy_checks/create",
+        "token_key_in_result": "token",
+        "result_base_url": "proxy_checks"
+    },
+    "logger": {
+        "_comment": "See https://docs.python.org/2/library/logging.config.html#dictionary-schema-details for details on how to configure loggers",
+        "version": 1,
+        "formatters": {
+            "simple": {
+                "format": "'%(asctime)s - %(levelname)s - %(message)s'"
+            }
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "level": "DEBUG",
+                "formatter": "simple",
+                "stream": "ext://sys.stdout"
+            },
+            "file": {
+                "class": "logging.FileHandler",
+                "level": "INFO",
+                "formatter": "simple",
+                "filename": "logfile.log"
+            }
+        },
+        "root": {
+            "level": "DEBUG",
+            "handlers": ["console", "file"]
+        }
+    },
+    "http_timeout": 30,
+    "socks_timeout": 30,
+    "plugin_path": "plugins/"
+}

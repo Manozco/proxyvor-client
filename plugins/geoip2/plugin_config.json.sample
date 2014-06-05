@@ -1,0 +1,12 @@
+{
+    "author": "diateam <contact@diateam.net>",
+    "name": "GeoIP2",
+    "description": "Get GeoIP2 informations on all the ip addresses in the proxy part of the result",
+    "version": "1",
+    "extra":{
+        "credentials": {
+            "user": 00000,
+            "key": "aaaaaaaaaaaa"
+        }
+    }
+}

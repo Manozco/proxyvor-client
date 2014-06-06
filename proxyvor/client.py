@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 import proxyvor.tools.json_wrapper as json
 import argparse
 import re
@@ -47,14 +47,14 @@ def parse_args():
         try:
             ret['proxy_port'] = int(args.port)
         except ValueError:
-            print "CRITICAL: The port specified ({0}) can not be converted to int".format(args.port)
+            print("CRITICAL: The port specified ({0}) can not be converted to int".format(args.port))
             sys.exit(2)
         if not ret['proxy_port'] in range(1, 65535):
             ret['proxy_port'] = 80
 
     if args.type:
-        if args.type not in PROXY_TESTERS.keys():
-            print 'For the moment, only those proxys are supported: ', PROXY_TESTERS.keys()
+        if args.type not in list(PROXY_TESTERS.keys()):
+            print('For the moment, only those proxys are supported: ', list(PROXY_TESTERS.keys()))
             ret['proxy_type'] = 'http'
         else:
             ret['proxy_type'] = args.type
@@ -65,7 +65,7 @@ def parse_args():
             with open(args.config, 'r'):
                 ret['config_file_path'] = args.config
         except IOError:
-            print "CRITICAL: The config file specified ({0}) can not be converted to int".format(args.config)
+            print("CRITICAL: The config file specified ({0}) can not be converted to int".format(args.config))
             sys.exit(2)
     return ret
 
@@ -78,7 +78,7 @@ def parse_config_file(config_file_path):
         config_file = open(config_file_path)
 
     except IOError:
-        print "Cannot parse config_file: {}".format(config_file_path)
+        print("Cannot parse config_file: {}".format(config_file_path))
         sys.exit(1)
 
     ret = json.load(config_file)
@@ -106,7 +106,7 @@ def run_plugin(plugins_dict, name, result=None):
     the plugin_config.json file
     """
     plugins_names = {}
-    for plugin_obj in plugins_dict.values():
+    for plugin_obj in list(plugins_dict.values()):
         plugins_names[plugin_obj.name()] = plugin_obj
 
     if name in plugins_dict:

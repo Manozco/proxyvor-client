@@ -2,9 +2,9 @@
 module for the parent class of proxy testers
 """
 # pylint: disable=relative-import
-from __future__ import unicode_literals
+
 import proxyvor.reflector_handler as reflector_handler
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import proxyvor.tester_result as tester_result
 import proxyvor.tools.exceptions as exceptions
 import pycurl
@@ -21,7 +21,7 @@ class ProxyTester(object):
     """
     # pylint: disable=too-many-arguments
     def __init__(self, ip, port, target_object, http_timeout=-1, socks_timeout=-1):
-        assert isinstance(ip, (str, unicode))
+        assert isinstance(ip, str)
         assert isinstance(port, int)
         assert isinstance(target_object, reflector_handler.ReflectorHandler)
 
@@ -54,7 +54,7 @@ class HttpTester(ProxyTester):
     class for testing http proxys
     """
     def __init__(self, ip, port, target_object):
-        assert isinstance(ip, (str, unicode))
+        assert isinstance(ip, str)
         assert isinstance(port, int)
         assert isinstance(target_object, reflector_handler.ReflectorHandler)
         super(HttpTester, self).__init__(ip, port, target_object)
@@ -64,16 +64,16 @@ class HttpTester(ProxyTester):
 
     def test(self):
         self._token = self._target.get_token()
-        proxy_handler = urllib2.ProxyHandler({self._type: '{0}:{1}'.format(self._ip,
+        proxy_handler = urllib.request.ProxyHandler({self._type: '{0}:{1}'.format(self._ip,
                                                                            self._port)})
         try:
-            proxy_opener = urllib2.build_opener(proxy_handler)
+            proxy_opener = urllib.request.build_opener(proxy_handler)
             timeout = self._http_timeout if (self._http_timeout != -1 and self._http_timeout > 0) else None
             if timeout:
                 proxy_opener.open(self._target.target_url_to_reach_proxy(self._token), timeout=timeout)
             else:
                 proxy_opener.open(self._target.target_url_to_reach_proxy(self._token))
-        except urllib2.URLError as urllib_error:
+        except urllib.error.URLError as urllib_error:
             LOGGER.error("Proxy Connection failed: {}".format(urllib_error.reason))
             raise exceptions.UrllibError(urllib_error)
         except Exception as base_except:
@@ -81,20 +81,20 @@ class HttpTester(ProxyTester):
             raise exceptions.Error(base_except)
 
         try:
-            no_proxy_opener = urllib2.build_opener()
+            no_proxy_opener = urllib.request.build_opener()
             timeout = self._http_timeout if (self._http_timeout != -1 and self._http_timeout > 0) else None
             if timeout:
                 no_proxy_opener.open(self._target.target_url_to_reach_real(self._token), timeout=timeout)
             else:
                 no_proxy_opener.open(self._target.target_url_to_reach_real(self._token))
-        except urllib2.URLError as urllib_error:
+        except urllib.error.URLError as urllib_error:
             LOGGER.error("Real Connection failed: {}".format(urllib_error.reason))
             raise exceptions.UrllibError(urllib_error)
         except Exception as base_except:
             LOGGER.error("Exception occurs: {}".format(base_except))
         try:
-            self._result = urllib2.urlopen(self._target.token_result_url(self._token))
-        except urllib2.URLError as urllib_error:
+            self._result = urllib.request.urlopen(self._target.token_result_url(self._token))
+        except urllib.error.URLError as urllib_error:
             LOGGER.error("Failed to get results back: {}".format(urllib_error.reason))
             raise exceptions.UrllibError(urllib_error)
 
@@ -112,7 +112,7 @@ class SocksTester(ProxyTester):
     common parent class for testing socks4 and socks5 proxys
     """
     def __init__(self, ip, port, target_object):
-        assert isinstance(ip, (str, unicode))
+        assert isinstance(ip, str)
         assert isinstance(port, int)
         assert isinstance(target_object, reflector_handler.ReflectorHandler)
         super(SocksTester, self).__init__(ip, port, target_object)
@@ -158,8 +158,8 @@ class SocksTester(ProxyTester):
             raise exceptions.Error(base_exception)
 
         try:
-            self._result = urllib2.urlopen(self._target.token_result_url(self._token))
-        except urllib2.URLError as urllib_error:
+            self._result = urllib.request.urlopen(self._target.token_result_url(self._token))
+        except urllib.error.URLError as urllib_error:
             LOGGER.error("Failed to get results back: {}".format(urllib_error.reason))
             raise exceptions.UrllibError(urllib_error)
         LOGGER.debug(self._result.info())

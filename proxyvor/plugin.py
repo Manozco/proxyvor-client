@@ -149,7 +149,7 @@ def load(path_plugins, data):
 def print_all_plugins(plugins_dict):
     #pylint: disable=missing-docstring
     assert isinstance(plugins_dict, dict)
-    for name, plugin in plugins_dict.iteritems():
+    for name, plugin in plugins_dict.items():
         LOGGER.debug("*********" + name + "*********")
         LOGGER.debug(plugin)
         LOGGER.debug("\n")

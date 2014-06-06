@@ -19,6 +19,8 @@ def load(fp, **kargs):
 def loads(s, **kargs):
     #pylint: disable=missing-docstring,invalid-name
     ret = {}
+    if isinstance(s, bytes):
+        s = s.decode()
     try:
         ret = json.loads(s, **kargs)
     except Exception:

@@ -22,7 +22,8 @@ class ProxyResult(object):
     for storing the results
     """
     def __init__(self, result):
-        assert isinstance(result, (str, unicode))
+        if isinstance(result, bytes):
+            result = result.decode()
 
         self._result = result
         self._json_result = None

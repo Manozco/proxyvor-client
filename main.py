@@ -1,7 +1,7 @@
 """
 client for proxyvor
 """
-from __future__ import unicode_literals
+
 import proxyvor.tools.exceptions as exceptions
 import traceback
 from proxyvor import client as proxyvor_client
@@ -16,7 +16,7 @@ if __name__ == '__main__':
         CONFIG = proxyvor_client.parse_config_file(PROG_ARGS.get('config_file_path', ""))
         LOGGER_CONFIG = CONFIG.get('logger')
         if not LOGGER_CONFIG:
-            print "You must specify a 'logger' key in the config file"
+            print("You must specify a 'logger' key in the config file")
             exit(1)
         logging.config.dictConfig(LOGGER_CONFIG)
         LOGGER = logging.getLogger()
@@ -44,10 +44,10 @@ if __name__ == '__main__':
             LOGGER.exception("Traceback: ")
             LOGGER.debug("********************************")
         else:
-            print "Proxyvor Exceptions occurs: ", type(p_exc), p_exc
-            print "**********INFORMATIONS**********"
+            print("Proxyvor Exceptions occurs: ", type(p_exc), p_exc)
+            print("**********INFORMATIONS**********")
             traceback.print_exc()
-            print "********************************"
+            print("********************************")
 
     except Exception as exc:
         if LOGGER:
@@ -56,7 +56,7 @@ if __name__ == '__main__':
             LOGGER.exception("Traceback: ")
             LOGGER.debug("********************************")
         else:
-            print "Proxyvor Exceptions occurs: ", type(exc), exc
-            print "**********INFORMATIONS**********"
+            print("Proxyvor Exceptions occurs: ", type(exc), exc)
+            print("**********INFORMATIONS**********")
             traceback.print_exc()
-            print "********************************"
+            print("********************************")

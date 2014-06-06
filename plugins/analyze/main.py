@@ -61,7 +61,7 @@ class Plugin(plugin.ProxyvorClientBasePlugin):
                 return BAD_ANONYMITY
 
         for bad_header in BAD_HEADERS_FOR_PROXY:
-            if bad_header in self._proxy.get('http_headers', {}).keys():
+            if bad_header in list(self._proxy.get('http_headers', {}).keys()):
                 return NEUTRAL
 
         return GOOD_ANONYMITY
